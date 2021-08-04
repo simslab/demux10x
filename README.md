@@ -4,13 +4,17 @@ This code is for demultiplexing both single- and dual-index Illumina sequencing 
 
 For single-index Illumina runs, a two-column, tab-delimited input file is required. The first column contains the names of each sample; the second column contains the index sequences for each sample.  For single-index Illumina runs, example usage is as follows:
 
+```
 python demux10x.py --mode single --sample-table sample_index_table.txt -i1 Undetermined_S0_L001_I1_001.fastq.gz --target-fastq Undetermined_S0_L001_R1_001.fastq.gz -r R1 -l L001
+```
 
 This command would use the index read fastq Undetermined_S0_L001_I1_001.fastq.gz to identify all of the Illumina clusters containing the index sequences in sample_index_table.txt and create a new set of fastqs, one for each sample in sample_index_table.txt, containing the appropriate reads from Undetermined_S0_L001_R1_001.fastq.gz, which corresponds to read 1 and lane 1.
 
 For dual-index Illumina runs, a three-column, tab-delimited input file is required. The first column contains the names of each sample; the second and third columns contain the two index sequences for each sample. For dual-index Illumina runs, example usage is as follows:
 
+```
 python demux10x.py --mode dual --sample-table tmp -i1 Undetermined_S0_L001_I1_001.fastq.gz -i2 Undetermined_S0_L001_I2_001.fastq.gz --target-fastq Undetermined_S0_L001_R2_001.fastq.gz  -r R2 -l L001
+```
 
 This command would use the two index read fastqs Undetermined_S0_L001_I1_001.fastq.gz and Undetermined_S0_L001_I2_001.fastq.gz to identify all of the Illumina clusters containing the correctly paired index sequences in sample_index_table.txt and create a new set of fastqs, one for each sample in sample_index_table.txt, containing the appropriate reads from Undetermined_S0_L001_R2_001.fastq.gz, which corresponds to read 2 and lane 1.
 
