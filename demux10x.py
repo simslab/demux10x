@@ -10,6 +10,7 @@ def parse_user_input():
     parser.add_argument('-i2','--index2-fastq',required=False,help='Path to index read 2 (I2) fastq file. This is required only for dual index demultiplexing.')
     parser.add_argument('-t','--target-fastq',required=True,help='Path to the target fastq file that you want to demultiplex.')
     parser.add_argument('-r','--target-read',required=True,choices=['R1','R2','I1','I2'],help='Illumina read to which the target fastq corresponds (R1, R2, I1, or I2).')
+    parser.add_argument('-l','--target-lane',required=True,help='Illumina lane to which the target fastq corresponds (e.g. L001, L002, etc)')
     return parser
 
 parser = parse_user_input()
@@ -24,23 +25,25 @@ if ui.mode == 'dual':
         index1=ui.index1_fastq
         index2=ui.index2_fastq
         read=ui.target_read
+        lane=ui.target_lane
         with open(ui.sample_table) as f:
             for line in f:
                 llist = line.split()
                 s=llist[0]
                 i1=llist[1]
                 i2=llist[2]
-                cmd = 'zcat %(target)s | python dual_index_demux.py -i1 %(index1)s -i2 %(index2)s -ind1 %(i1)s -ind2 %(i2)s -s %(s)s | gzip > %(s)s_%(read)s_001.fastq.gz &' % vars()
+                cmd = 'zcat %(target)s | python dual_index_demux.py -i1 %(index1)s -i2 %(index2)s -ind1 %(i1)s -ind2 %(i2)s -s %(s)s | gzip > %(s)s_%(lane)s_%(read)s_001.fastq.gz &' % vars()
                 os.system(cmd)
 elif ui.mode=='single':
     target=ui.target_fastq
     index1=ui.index1_fastq
     read=ui.target_read
+    lane=ui.target_lane
     with open(ui.sample_table) as f:
         for line in f:
             llist=line.split()
             s=llist[0]
             i1=llist[1]
-            cmd = 'zcat %(target)s | python single_index_demux.py -ind %(i1)s -s %(s)s -i %(index1)s | gzip > %(s)s_%(read)s_001.fastq.gz &' % vars()
+            cmd = 'zcat %(target)s | python single_index_demux.py -ind %(i1)s -s %(s)s -i %(index1)s | gzip > %(s)s_%(lane)s_%(read)s_001.fastq.gz &' % vars()
             os.system(cmd)
 
