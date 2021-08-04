@@ -1,6 +1,6 @@
 # demux10x
 
-This code is for demultiplexing both single- and dual-index Illumina sequencing runs starting from fastq files.  It requires Python >=3.6.
+This code is for demultiplexing both single- and dual-index Illumina sequencing runs starting from fastq files.  The envisioned application is demultiplexing the index reads from various types of 10x Genomics sequencing library construction methods, but the code is broadly applicable.  It requires Python >=3.6.
 
 For single-index Illumina runs, a two-column, tab-delimited input file is required. The first column contains the names of each sample; the second column contains the index sequences for each sample.  For single-index Illumina runs, example usage is as follows:
 
